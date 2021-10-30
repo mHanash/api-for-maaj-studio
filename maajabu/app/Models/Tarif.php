@@ -11,6 +11,6 @@ class Tarif extends Model
     use HasFactory;
 
     public function services(){
-        $this->hasMany(Service::class);
+        return $this->hasMany(Service::class);
     }
 }

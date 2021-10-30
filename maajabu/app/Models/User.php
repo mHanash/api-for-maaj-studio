@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
 
@@ -45,10 +46,10 @@ class User extends Authenticatable
     ];
 
     public function reservations(){
-        $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class);
     }
 
     public function servicesResevation(){
-        $this->hasManyThrough(Service::class,Reservation::class);
+        return $this->hasManyThrough(Service::class,Reservation::class);
     }
 }

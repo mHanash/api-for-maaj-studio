@@ -11,6 +11,6 @@ class Category extends Model
     use HasFactory;
 
     public function works(){
-        $this->belongsToMany(Work::class);
+        return $this->belongsToMany(Work::class);
     }
 }

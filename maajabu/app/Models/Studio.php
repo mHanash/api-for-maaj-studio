@@ -16,6 +16,6 @@ class Studio extends Model
     }
 
     public function phones(){
-        $this->hasMany(Phone::class);
+        return $this->hasMany(Phone::class);
     }
 }

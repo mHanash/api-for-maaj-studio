@@ -10,6 +10,6 @@ class Social_network extends Model
     use HasFactory;
 
     public function studio(){
-        $this->belongsTo(Studio::class);
+        return $this->belongsTo(Studio::class);
     }
 }

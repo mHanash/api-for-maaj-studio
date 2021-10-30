@@ -11,10 +11,10 @@ class Reservation extends Model
     use HasFactory;
 
     public function user(){
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function services(){
-        $this->belongsToMany(Service::class);
+        return $this->belongsToMany(Service::class);
     }
 }

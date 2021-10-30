@@ -11,15 +11,17 @@ class Work extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','description','engineer_id','artist_id'];
+
     public function artist(){
-        $this->belongsTo(Artist::class);
+        return $this->belongsTo(Artist::class);
     }
 
     public function engineer(){
-        $this->belongsTo(Engineer::class);
+        return $this->belongsTo(Engineer::class);
     }
 
     public function categories(){
-        $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 }

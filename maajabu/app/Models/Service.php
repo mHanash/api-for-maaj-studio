@@ -11,10 +11,10 @@ class Service extends Model
     use HasFactory;
 
     public function tarif(){
-        $this->belongsTo(Tarif::class);
+        return $this->belongsTo(Tarif::class);
     }
 
     public function reservations(){
-        $this->belongsToMany(Reservation::class);
+        return $this->belongsToMany(Reservation::class);
     }
 }
