@@ -16,8 +16,8 @@ class CreateEngineersTable extends Migration
         Schema::create('engineers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('year_experience')->nullable()->default('null');
-            $table->string('img_url')->nullable()->default('null');
+            $table->integer('year_experience')->nullable();
+            $table->string('img_url')->nullable();
             $table->timestamps();
         });
     }
