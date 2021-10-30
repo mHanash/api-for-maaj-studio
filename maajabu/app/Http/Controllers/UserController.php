@@ -31,7 +31,8 @@ class UserController extends Controller
         //
         if (User::create($request->all())) {
             return response()->json([
-                'success'=>'true'
+                'success'=>'true',
+                'message' => 'Utilisateur crée'
             ]);
         }
 

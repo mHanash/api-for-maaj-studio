@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Service as ResourcesService;
+use App\Http\Resources\Studio as ResourcesStudio;
+use App\Models\Service;
 use App\Models\Studio;
 use Illuminate\Http\Request;
 
@@ -15,6 +18,13 @@ class StudioController extends Controller
     public function index()
     {
         //
+        $studios = Studio::all();
+        $services = Service::all();
+
+        return [
+            'studios' => ResourcesStudio::collection($studios),
+            'services' => ResourcesService::collection($services)
+        ];
     }
 
     /**
@@ -26,6 +36,12 @@ class StudioController extends Controller
     public function store(Request $request)
     {
         //
+        if (Studio::create($request->all())) {
+            return [
+                'success' => 'true',
+                'message' => 'Enregistrement effectué'
+            ];
+        }
     }
 
     /**
@@ -37,6 +53,7 @@ class StudioController extends Controller
     public function show(Studio $studio)
     {
         //
+        return $studio;
     }
 
     /**
@@ -49,6 +66,12 @@ class StudioController extends Controller
     public function update(Request $request, Studio $studio)
     {
         //
+        if ($studio->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +83,11 @@ class StudioController extends Controller
     public function destroy(Studio $studio)
     {
         //
+        if ($studio->delete()) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 }

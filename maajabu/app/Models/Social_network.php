@@ -9,6 +9,8 @@ class Social_network extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','studio_id'];
+
     public function studio(){
         return $this->belongsTo(Studio::class);
     }

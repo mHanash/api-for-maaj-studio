@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Tarif as ResourcesTarif;
 use App\Models\Tarif;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class TarifController extends Controller
     public function index()
     {
         //
+        $tarifs = Tarif::all();
+        return ResourcesTarif::collection($tarifs);
     }
 
     /**
@@ -26,6 +29,12 @@ class TarifController extends Controller
     public function store(Request $request)
     {
         //
+        if (Tarif::create($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement effectué"
+            ];
+        }
     }
 
     /**
@@ -37,6 +46,12 @@ class TarifController extends Controller
     public function show(Tarif $tarif)
     {
         //
+        return response()->json([
+            'id' => $tarif->id,
+            'name' => $tarif->name,
+            'description' => $tarif->description,
+            'price' => $tarif->price
+        ]);
     }
 
     /**
@@ -49,6 +64,12 @@ class TarifController extends Controller
     public function update(Request $request, Tarif $tarif)
     {
         //
+        if ($tarif->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +81,11 @@ class TarifController extends Controller
     public function destroy(Tarif $tarif)
     {
         //
+        if ($tarif->delete()) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement supprimé"
+            ];
+        }
     }
 }

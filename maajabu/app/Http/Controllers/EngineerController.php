@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Engineer as ResourcesEngineer;
 use App\Models\Engineer;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class EngineerController extends Controller
     public function index()
     {
         //
+        $engineers = Engineer::all();
+        return ResourcesEngineer::collection($engineers);
     }
 
     /**
@@ -26,6 +29,13 @@ class EngineerController extends Controller
     public function store(Request $request)
     {
         //
+
+        if (Engineer::create($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement effectué"
+            ];
+        }
     }
 
     /**
@@ -37,6 +47,12 @@ class EngineerController extends Controller
     public function show(Engineer $engineer)
     {
         //
+        return response()->json([
+            'id' => $engineer->id,
+            'name' => $engineer->name,
+            'year_experience' => $engineer->year_experience,
+            'img_url' => $engineer->img_url
+        ]);
     }
 
     /**
@@ -49,6 +65,12 @@ class EngineerController extends Controller
     public function update(Request $request, Engineer $engineer)
     {
         //
+        if ($engineer->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +82,11 @@ class EngineerController extends Controller
     public function destroy(Engineer $engineer)
     {
         //
+        if ($engineer->delete()) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement supprimé"
+            ];
+        }
     }
 }

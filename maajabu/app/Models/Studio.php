@@ -11,6 +11,8 @@ class Studio extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','description','adresse','url_maps'];
+
     public function social_networks(){
         $this->hasMany(Social_network::class);
     }

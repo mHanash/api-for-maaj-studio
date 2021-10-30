@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Service as ResourcesService;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class ServiceController extends Controller
     public function index()
     {
         //
+        $services = Service::all();
+        return ResourcesService::collection($services);
     }
 
     /**
@@ -26,6 +29,13 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         //
+        if (Service::create($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement effectué"
+            ];
+        }
+
     }
 
     /**
@@ -37,6 +47,15 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         //
+        $tarif = $service->tarif->name;
+
+        return response()->json([
+            'id' => $service->id,
+            'name' => $service->name,
+            'description' => $service->desciption,
+            'img_url' => $service->img_url,
+            'tarif' => $tarif
+        ]);
     }
 
     /**
@@ -49,6 +68,12 @@ class ServiceController extends Controller
     public function update(Request $request, Service $service)
     {
         //
+        if ($service->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +85,11 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+        if ($service->delete()) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement supprimé"
+            ];
+        }
     }
 }

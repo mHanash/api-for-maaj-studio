@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Work as ResourcesWork;
-use App\Models\Engineer;
 use App\Models\Work;
 use Illuminate\Http\Request;
 

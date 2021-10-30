@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Category as ResourcesCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
+
+use function PHPUnit\Framework\returnSelf;
 
 class CategoryController extends Controller
 {
@@ -15,6 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        return ResourcesCategory::collection(Category::all());
     }
 
     /**
@@ -26,6 +30,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        if (Category::create($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement effectué"
+            ];
+        }
+
     }
 
     /**
@@ -37,6 +48,10 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
+        return response()->json([
+            'id' => $category->id,
+            'name' => $category->name
+        ]);
     }
 
     /**
@@ -49,6 +64,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        if ($category->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +81,11 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        if ($category->delete()) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement supprimé"
+            ];
+        }
     }
 }

@@ -10,6 +10,8 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','description','img_url','tarif_id'];
+
     public function tarif(){
         return $this->belongsTo(Tarif::class);
     }

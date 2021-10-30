@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Reservation as ResourcesReservation;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class ReservationController extends Controller
     public function index()
     {
         //
+        $reservations = Reservation::all();
+        return ResourcesReservation::collection($reservations);
     }
 
     /**
@@ -26,6 +29,12 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         //
+        if (Reservation::create($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement effectué"
+            ];
+        }
     }
 
     /**
@@ -37,6 +46,11 @@ class ReservationController extends Controller
     public function show(Reservation $reservation)
     {
         //
+        return [
+            'id' => $reservation->id,
+            'user' => $reservation->user->name,
+            'date' => $reservation->date_reservation
+        ];
     }
 
     /**
@@ -49,6 +63,12 @@ class ReservationController extends Controller
     public function update(Request $request, Reservation $reservation)
     {
         //
+        if ($reservation->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +80,11 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+        if ($reservation->delete()) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement supprimé"
+            ];
+        }
     }
 }

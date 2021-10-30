@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Artist as ResourcesArtist;
 use App\Models\Artist;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class ArtistController extends Controller
     public function index()
     {
         //
+        return ResourcesArtist::collection(Artist::all());
     }
 
     /**
@@ -26,6 +28,12 @@ class ArtistController extends Controller
     public function store(Request $request)
     {
         //
+        if (Artist::create($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement effectué"
+            ];
+        }
     }
 
     /**
@@ -37,6 +45,10 @@ class ArtistController extends Controller
     public function show(Artist $artist)
     {
         //
+        return response()->json([
+            'id' => $artist->id,
+            'name' => $artist->name
+        ]);
     }
 
     /**
@@ -49,6 +61,12 @@ class ArtistController extends Controller
     public function update(Request $request, Artist $artist)
     {
         //
+        if ($artist->update($request->all())) {
+            return [
+                "success" => "true",
+                "message" => "La modification a reussie"
+            ];
+        }
     }
 
     /**
@@ -60,5 +78,11 @@ class ArtistController extends Controller
     public function destroy(Artist $artist)
     {
         //
+        if ($artist->delete()) {
+            return [
+                "success" => "true",
+                "message" => "Enregistrement supprimé"
+            ];
+        }
     }
 }

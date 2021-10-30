@@ -10,6 +10,8 @@ class Tarif extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','description','price'];
+
     public function services(){
         return $this->hasMany(Service::class);
     }

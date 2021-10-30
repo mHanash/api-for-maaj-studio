@@ -10,6 +10,8 @@ class Phone extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['number','studio_id'];
+
     public function studio(){
         return $this->belongsTo(Studio::class);
     }

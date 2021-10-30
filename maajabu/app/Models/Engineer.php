@@ -10,6 +10,8 @@ class Engineer extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','year_experience','img_url'];
+
     public function works(){
         return $this->hasMany(Work::class);
     }
