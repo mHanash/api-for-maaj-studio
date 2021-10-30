@@ -13,4 +13,8 @@ class Reservation extends Model
     public function user(){
         $this->belongsTo(User::class);
     }
+
+    public function services(){
+        $this->belongsToMany(Service::class);
+    }
 }

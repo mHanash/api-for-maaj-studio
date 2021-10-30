@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Service;
 use App\Models\Reservation;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -45,5 +46,9 @@ class User extends Authenticatable
 
     public function reservations(){
         $this->hasMany(Reservation::class);
+    }
+
+    public function servicesResevation(){
+        $this->hasManyThrough(Service::class,Reservation::class);
     }
 }

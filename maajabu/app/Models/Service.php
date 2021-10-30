@@ -13,4 +13,8 @@ class Service extends Model
     public function tarif(){
         $this->belongsTo(Tarif::class);
     }
+
+    public function reservations(){
+        $this->belongsToMany(Reservation::class);
+    }
 }
