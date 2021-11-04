@@ -63,7 +63,7 @@ class ArtistController extends Controller
         //
         if ($artist->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }

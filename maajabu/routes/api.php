@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkController;
 use App\Http\Controllers\TarifController;
 use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CategoryController;
@@ -23,12 +24,22 @@ use App\Http\Controllers\ReservationController;
 |
 */
 
-Route::apiResource('user', UserController::class);
-Route::apiResource('artist', ArtistController::class);
-Route::apiResource('category', CategoryController::class);
-Route::apiResource('engineer', EngineerController::class);
-Route::apiResource('reservation', ReservationController::class);
-Route::apiResource('service', ServiceController::class);
-Route::apiResource('studio', StudioController::class);
-Route::apiResource('tarif', TarifController::class);
-Route::apiResource('work', WorkController::class);
+
+
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('artist', ArtistController::class);
+    Route::apiResource('category', CategoryController::class);
+    Route::apiResource('engineer', EngineerController::class);
+    Route::apiResource('reservation', ReservationController::class);
+    Route::apiResource('service', ServiceController::class);
+    Route::apiResource('studio', StudioController::class);
+    Route::apiResource('tarif', TarifController::class);
+    Route::apiResource('work', WorkController::class);
+
+    Route::post('logout',[AuthController::class,'logout']);
+
+});
+
+Route::post('login',[AuthController::class,'login']);
+Route::post('register',[AuthController::class,'register']);

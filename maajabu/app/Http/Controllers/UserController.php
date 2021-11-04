@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,7 +30,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        if (User::create($request->all())) {
+        if (User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request->password)
+        ])) {
             return response()->json([
                 'success'=>'true',
                 'message' => 'Utilisateur crée'
