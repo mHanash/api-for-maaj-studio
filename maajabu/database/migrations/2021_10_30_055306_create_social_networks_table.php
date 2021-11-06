@@ -16,7 +16,7 @@ class CreateSocialNetworksTable extends Migration
         Schema::create('social_networks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('studio_id')->constrained()->onDelete('cascade');
+            $table->foreignId('studio_id')->constrained();
             $table->timestamps();
         });
     }

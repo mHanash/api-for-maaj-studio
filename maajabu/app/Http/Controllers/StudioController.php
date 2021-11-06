@@ -20,11 +20,9 @@ class StudioController extends Controller
     {
         //
         $studios = Studio::all();
-        $services = Service::all();
 
         return [
             'studios' => ResourcesStudio::collection($studios),
-            'services' => ResourcesService::collection($services)
         ];
     }
 
@@ -59,7 +57,11 @@ class StudioController extends Controller
     public function show(Studio $studio)
     {
         //
-        return $studio;
+        $phones = $studio->phones;
+        $social_networks = $studio->social_networks;
+        return [
+            'studio' => $studio
+        ];
     }
 
     /**

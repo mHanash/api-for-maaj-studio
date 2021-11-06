@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Tarif;
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

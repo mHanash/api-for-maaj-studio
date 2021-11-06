@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -63,7 +64,11 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
-        return $user;
+
+        $reservations = $user->reservations;
+        return [
+            'user'=>$user,
+        ];
     }
 
     /**

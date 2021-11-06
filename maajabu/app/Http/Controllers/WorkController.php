@@ -53,17 +53,13 @@ class WorkController extends Controller
     public function show(Work $work)
     {
         //
-        $engineer = $work->engineer->name;
-        $artist = $work->artist->name;
-        $work_name = $work->name;
-        $description = $work->description;
-        return response()->json([
-            'id' => $work->id,
-            'name' => $work_name,
-            'description' => $description,
-            'engineer' => $engineer,
-            'artist' => $artist
-        ]) ;
+        $engineer=$work->engineer;
+        $artist=$work->artist;
+        $categories=$work->categories;
+
+        return [
+            'works'=>$work
+        ];
     }
 
     /**

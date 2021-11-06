@@ -52,12 +52,10 @@ class EngineerController extends Controller
     public function show(Engineer $engineer)
     {
         //
-        return response()->json([
-            'id' => $engineer->id,
-            'name' => $engineer->name,
-            'year_experience' => $engineer->year_experience,
-            'img_url' => $engineer->img_url
-        ]);
+        $works = $engineer->works;
+        return [
+            'engineer'=>$engineer
+        ];
     }
 
     /**

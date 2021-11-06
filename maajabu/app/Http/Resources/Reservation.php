@@ -17,7 +17,7 @@ class Reservation extends JsonResource
         return [
             'id' => $this->id,
             'client' => $this->user->name,
-            'date' => $this->date_reservation
+            'date_reservation' => $this->date_reservation
         ];
     }
 }

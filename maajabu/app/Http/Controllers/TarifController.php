@@ -52,12 +52,10 @@ class TarifController extends Controller
     public function show(Tarif $tarif)
     {
         //
-        return response()->json([
-            'id' => $tarif->id,
-            'name' => $tarif->name,
-            'description' => $tarif->description,
-            'price' => $tarif->price
-        ]);
+        $services = $tarif->services;
+        return [
+            'tarif'=> $tarif
+        ];
     }
 
     /**

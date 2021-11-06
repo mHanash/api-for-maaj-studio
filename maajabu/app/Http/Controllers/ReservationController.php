@@ -51,11 +51,10 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
-        //
+        $user = $reservation->user;
+        $services = $reservation->services;
         return [
-            'id' => $reservation->id,
-            'user' => $reservation->user->name,
-            'date' => $reservation->date_reservation
+            'reservation'=>$reservation
         ];
     }
 
@@ -93,4 +92,6 @@ class ReservationController extends Controller
             ];
         }
     }
+
+
 }

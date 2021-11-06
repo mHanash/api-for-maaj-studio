@@ -51,10 +51,10 @@ class ArtistController extends Controller
     public function show(Artist $artist)
     {
         //
-        return response()->json([
-            'id' => $artist->id,
-            'name' => $artist->name
-        ]);
+        $works = $artist->works;
+        return [
+            'artist' => $artist
+        ];
     }
 
     /**

@@ -54,10 +54,10 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
-        return response()->json([
-            'id' => $category->id,
-            'name' => $category->name
-        ]);
+        $works = $category->works;
+        return [
+            'category' => $category
+        ];
     }
 
     /**

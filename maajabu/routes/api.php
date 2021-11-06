@@ -27,9 +27,9 @@ use App\Http\Controllers\ReservationController;
 //Routes access private
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
-    Route::apiResource('reservation', ReservationController::class);
     Route::post('logout',[AuthController::class,'logout']);
     Route::apiResource('user', UserController::class);
+    Route::apiResource('reservation', ReservationController::class);
 
 });
 

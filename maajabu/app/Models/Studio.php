@@ -14,7 +14,7 @@ class Studio extends Model
     protected $fillable = ['name','description','adresse','url_maps'];
 
     public function social_networks(){
-        $this->hasMany(Social_network::class);
+        return $this->hasMany(Social_network::class);
     }
 
     public function phones(){

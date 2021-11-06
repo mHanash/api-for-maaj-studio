@@ -53,15 +53,12 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         //
-        $tarif = $service->tarif->name;
+        $tarif = $service->tarif;
+        $reservations = $service->reservations;
 
-        return response()->json([
-            'id' => $service->id,
-            'name' => $service->name,
-            'description' => $service->desciption,
-            'img_url' => $service->img_url,
-            'tarif' => $tarif
-        ]);
+        return [
+            'service' => $service
+        ];
     }
 
     /**

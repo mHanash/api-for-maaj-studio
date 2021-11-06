@@ -6,7 +6,6 @@ use App\Models\Service;
 use App\Models\Reservation;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -48,9 +47,5 @@ class User extends Authenticatable
 
     public function reservations(){
         return $this->hasMany(Reservation::class);
-    }
-
-    public function servicesResevation(){
-        return $this->hasManyThrough(Service::class,Reservation::class);
     }
 }

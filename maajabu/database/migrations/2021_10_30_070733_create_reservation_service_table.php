@@ -13,7 +13,7 @@ class CreateServiceReservationTable extends Migration
      */
     public function up()
     {
-        Schema::create('service_reservation', function (Blueprint $table) {
+        Schema::create('reservation_service', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_id')->constrained();
             $table->foreignId('reservation_id')->constrained();
