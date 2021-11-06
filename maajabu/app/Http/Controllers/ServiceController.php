@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Service as ResourcesService;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\Service as ResourcesService;
 
 class ServiceController extends Controller
 {
@@ -29,9 +30,12 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (Service::create($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement effectué"
             ];
         }
@@ -68,9 +72,12 @@ class ServiceController extends Controller
     public function update(Request $request, Service $service)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($service->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }
@@ -85,9 +92,12 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($service->delete()) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement supprimé"
             ];
         }

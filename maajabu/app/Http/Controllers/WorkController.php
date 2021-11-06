@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Work as ResourcesWork;
 use App\Models\Work;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\Work as ResourcesWork;
 
 class WorkController extends Controller
 {
@@ -29,6 +30,9 @@ class WorkController extends Controller
     public function store(Request $request)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (Work::create($request->all())) {
             return [
                 "success" => "true",
@@ -70,6 +74,9 @@ class WorkController extends Controller
     public function update(Request $request, Work $work)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($work->update($request->all())) {
             return [
                 "success" => "true",
@@ -87,6 +94,9 @@ class WorkController extends Controller
     public function destroy(Work $work)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($work->delete()) {
             return [
                 "success" => "true",

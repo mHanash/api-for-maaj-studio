@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Category as ResourcesCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 use function PHPUnit\Framework\returnSelf;
+use App\Http\Resources\Category as ResourcesCategory;
 
 class CategoryController extends Controller
 {
@@ -30,9 +31,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (Category::create($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement effectué"
             ];
         }
@@ -64,9 +68,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($category->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }
@@ -81,9 +88,12 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($category->delete()) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement supprimé"
             ];
         }

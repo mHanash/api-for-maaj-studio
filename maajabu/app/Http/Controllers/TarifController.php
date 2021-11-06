@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Tarif as ResourcesTarif;
 use App\Models\Tarif;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\Tarif as ResourcesTarif;
 
 class TarifController extends Controller
 {
@@ -29,9 +30,12 @@ class TarifController extends Controller
     public function store(Request $request)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (Tarif::create($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement effectué"
             ];
         }
@@ -64,9 +68,12 @@ class TarifController extends Controller
     public function update(Request $request, Tarif $tarif)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($tarif->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }
@@ -81,9 +88,12 @@ class TarifController extends Controller
     public function destroy(Tarif $tarif)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($tarif->delete()) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement supprimé"
             ];
         }

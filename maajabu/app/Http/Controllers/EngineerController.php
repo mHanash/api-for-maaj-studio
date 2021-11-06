@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Engineer as ResourcesEngineer;
 use App\Models\Engineer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\Engineer as ResourcesEngineer;
 
 class EngineerController extends Controller
 {
@@ -29,10 +30,12 @@ class EngineerController extends Controller
     public function store(Request $request)
     {
         //
-
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (Engineer::create($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement effectué"
             ];
         }
@@ -65,9 +68,12 @@ class EngineerController extends Controller
     public function update(Request $request, Engineer $engineer)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($engineer->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }
@@ -82,9 +88,12 @@ class EngineerController extends Controller
     public function destroy(Engineer $engineer)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($engineer->delete()) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement supprimé"
             ];
         }

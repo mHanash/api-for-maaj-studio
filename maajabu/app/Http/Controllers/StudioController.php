@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Service as ResourcesService;
-use App\Http\Resources\Studio as ResourcesStudio;
-use App\Models\Service;
 use App\Models\Studio;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\Studio as ResourcesStudio;
+use App\Http\Resources\Service as ResourcesService;
 
 class StudioController extends Controller
 {
@@ -36,9 +37,12 @@ class StudioController extends Controller
     public function store(Request $request)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (Studio::create($request->all())) {
             return [
-                'success' => 'true',
+                'success' => true,
                 'message' => 'Enregistrement effectué'
             ];
         }
@@ -66,9 +70,12 @@ class StudioController extends Controller
     public function update(Request $request, Studio $studio)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($studio->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }
@@ -83,9 +90,12 @@ class StudioController extends Controller
     public function destroy(Studio $studio)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if ($studio->delete()) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }

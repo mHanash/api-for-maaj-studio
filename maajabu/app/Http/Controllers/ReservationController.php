@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Reservation as ResourcesReservation;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\Reservation as ResourcesReservation;
 
 class ReservationController extends Controller
 {
@@ -16,6 +17,9 @@ class ReservationController extends Controller
     public function index()
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         $reservations = Reservation::all();
         return ResourcesReservation::collection($reservations);
     }
@@ -31,7 +35,7 @@ class ReservationController extends Controller
         //
         if (Reservation::create($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement effectué"
             ];
         }
@@ -65,7 +69,7 @@ class ReservationController extends Controller
         //
         if ($reservation->update($request->all())) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "La modification a reussie"
             ];
         }
@@ -82,7 +86,7 @@ class ReservationController extends Controller
         //
         if ($reservation->delete()) {
             return [
-                "success" => "true",
+                "success" => true,
                 "message" => "Enregistrement supprimé"
             ];
         }

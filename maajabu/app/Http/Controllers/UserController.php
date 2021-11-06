@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use GrahamCampbell\ResultType\Success;
 
 class UserController extends Controller
 {
@@ -17,7 +18,9 @@ class UserController extends Controller
     public function index()
     {
         //Return list of all users
-
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         return User::all();
     }
 
@@ -30,14 +33,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         if (User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password)
         ])) {
             return response()->json([
-                'success'=>'true',
+                'success'=> true,
                 'message' => 'Utilisateur crée'
             ]);
         }
@@ -53,6 +59,9 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
+        if (Gate::allow('access-admin')) {
+            abort("403");
+        }
         return $user;
     }
 
@@ -68,7 +77,8 @@ class UserController extends Controller
         //
         if ($user->update($request->all())) {
             return response()->json([
-                'success'=>'true'
+                'success'=> true,
+                'message' => 'Utilisateur modifié'
             ]);
         }
     }
@@ -84,8 +94,10 @@ class UserController extends Controller
         //
         if ($user->delete()) {
             return response()->json([
-                'success'=>'true'
+                'success'=> true,
+                'message' => 'Utilisateur supprimé'
             ]);
         }
     }
+
 }
