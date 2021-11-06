@@ -30,8 +30,10 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Service::create($request->all())) {
             return [
@@ -72,8 +74,10 @@ class ServiceController extends Controller
     public function update(Request $request, Service $service)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($service->update($request->all())) {
             return [
@@ -92,8 +96,10 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($service->delete()) {
             return [

@@ -29,8 +29,10 @@ class ArtistController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Artist::create($request->all())) {
             return [
@@ -65,8 +67,10 @@ class ArtistController extends Controller
     public function update(Request $request, Artist $artist)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($artist->update($request->all())) {
             return [
@@ -85,8 +89,10 @@ class ArtistController extends Controller
     public function destroy(Artist $artist)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($artist->delete()) {
             return [

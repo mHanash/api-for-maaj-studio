@@ -30,8 +30,10 @@ class WorkController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Work::create($request->all())) {
             return [
@@ -74,8 +76,10 @@ class WorkController extends Controller
     public function update(Request $request, Work $work)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($work->update($request->all())) {
             return [
@@ -94,8 +98,10 @@ class WorkController extends Controller
     public function destroy(Work $work)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($work->delete()) {
             return [

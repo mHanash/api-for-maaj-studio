@@ -17,8 +17,10 @@ class ReservationController extends Controller
     public function index()
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         $reservations = Reservation::all();
         return ResourcesReservation::collection($reservations);

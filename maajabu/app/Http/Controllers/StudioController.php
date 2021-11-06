@@ -37,8 +37,10 @@ class StudioController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Studio::create($request->all())) {
             return [
@@ -70,8 +72,10 @@ class StudioController extends Controller
     public function update(Request $request, Studio $studio)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($studio->update($request->all())) {
             return [
@@ -90,8 +94,10 @@ class StudioController extends Controller
     public function destroy(Studio $studio)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($studio->delete()) {
             return [

@@ -31,8 +31,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Category::create($request->all())) {
             return [
@@ -68,8 +70,10 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($category->update($request->all())) {
             return [
@@ -88,8 +92,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($category->delete()) {
             return [

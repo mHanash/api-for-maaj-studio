@@ -30,8 +30,10 @@ class EngineerController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Engineer::create($request->all())) {
             return [
@@ -68,8 +70,10 @@ class EngineerController extends Controller
     public function update(Request $request, Engineer $engineer)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($engineer->update($request->all())) {
             return [
@@ -88,8 +92,10 @@ class EngineerController extends Controller
     public function destroy(Engineer $engineer)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($engineer->delete()) {
             return [

@@ -30,8 +30,10 @@ class TarifController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (Tarif::create($request->all())) {
             return [
@@ -68,8 +70,10 @@ class TarifController extends Controller
     public function update(Request $request, Tarif $tarif)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($tarif->update($request->all())) {
             return [
@@ -88,8 +92,10 @@ class TarifController extends Controller
     public function destroy(Tarif $tarif)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if ($tarif->delete()) {
             return [

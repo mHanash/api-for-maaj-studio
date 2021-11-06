@@ -18,8 +18,10 @@ class UserController extends Controller
     public function index()
     {
         //Return list of all users
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         return User::all();
     }
@@ -33,8 +35,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
         }
         if (User::create([
             'name' => $request->name,
@@ -59,9 +63,6 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
-        if (Gate::allow('access-admin')) {
-            abort("403");
-        }
         return $user;
     }
 
