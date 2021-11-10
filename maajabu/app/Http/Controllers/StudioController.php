@@ -7,7 +7,6 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\Studio as ResourcesStudio;
-use App\Http\Resources\Service as ResourcesService;
 
 class StudioController extends Controller
 {
