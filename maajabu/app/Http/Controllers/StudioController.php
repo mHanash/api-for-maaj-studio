@@ -59,8 +59,10 @@ class StudioController extends Controller
         //
         $phones = $studio->phones;
         $social_networks = $studio->social_networks;
+        $services = Service::all();
         return [
-            'studio' => $studio
+            'studio' => $studio,
+            'services' => $services
         ];
     }
 
