@@ -53,6 +53,7 @@ class EngineerController extends Controller
     {
         //
         $works = $engineer->works;
+        $logiciels = $engineer->logiciels;
         return [
             'engineer'=>$engineer
         ];
@@ -76,7 +77,8 @@ class EngineerController extends Controller
         if ($engineer->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $engineer
             ];
         }
     }
@@ -98,7 +100,8 @@ class EngineerController extends Controller
         if ($engineer->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $engineer
             ];
         }
     }

@@ -34,6 +34,7 @@ class ArtistController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+
         if (Artist::create($request->all())) {
             return [
                 "success" => true,
@@ -75,7 +76,8 @@ class ArtistController extends Controller
         if ($artist->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $artist
             ];
         }
     }
@@ -97,7 +99,8 @@ class ArtistController extends Controller
         if ($artist->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $artist
             ];
         }
     }

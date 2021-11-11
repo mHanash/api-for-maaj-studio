@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReservationServiceTable extends Migration
+class CreateEngineerLogicielTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateReservationServiceTable extends Migration
      */
     public function up()
     {
-        Schema::create('reservation_service', function (Blueprint $table) {
+        Schema::create('engineer_logiciel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained();
-            $table->foreignId('reservation_id')->constrained();
+            $table->foreignId('engineer_id')->constrained();
+            $table->foreignId('logiciel_id')->constrained();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateReservationServiceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reservation_service');
+        Schema::dropIfExists('engineer_logiciel');
     }
 }

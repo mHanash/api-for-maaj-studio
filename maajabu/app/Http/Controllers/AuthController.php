@@ -3,37 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     //
-    public function login(Request $request){
-        $user = User::where('email',$request->email)->first();
+    public function login(LoginRequest $request){
 
-        if (!$user || !Hash::check($request->password,$user->password)) {
-            $response = [
-                'success' => false,
-                'message' => 'Utilisateur non authentifié'
-            ];
+        $request->authenticate();
 
-            return response($response,401);
-        }
 
-        $token = $user->createToken('myToken')->plainTextToken;
+        $token = $request->user()->createToken('myToken');
 
-        $response = [
-            'success' => true,
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
+       return response()->json(
+           [
+               'success' =>true,
+               'message'=>'Logged in',
+               'data'=> [
+                   'user'=> $request->user(),
+                   'token'=> $token->plainTextToken
+               ]
+           ]
+        );
     }
 
     public function logout(Request $request){
-       auth()->user()->tokens()->delete();
+        $request->user()->tokens()->delete();
        return [
            'message' => 'logged out'
        ];

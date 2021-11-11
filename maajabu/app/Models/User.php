@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Service;
 use App\Models\Reservation;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\ResetPasswordNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -47,5 +49,13 @@ class User extends Authenticatable
 
     public function reservations(){
         return $this->hasMany(Reservation::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+
+        $url = PROJECT_URL.'/reset-password?token=' . $token;
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Studio;
-use App\Models\Service;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Resources\Studio as ResourcesStudio;
 
-class StudioController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +16,9 @@ class StudioController extends Controller
     public function index()
     {
         //
-        $studios = Studio::all();
-
+        $images = Image::all();
         return [
-            'studios' => ResourcesStudio::collection($studios),
+            'images' => $images
         ];
     }
 
@@ -34,37 +31,37 @@ class StudioController extends Controller
     public function store(Request $request)
     {
         //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
+        $pathImage = $request->img_url->store('galeries','public');
+        if (Image::create([
+            'attribute' => $request->attribute,
+            'img_url' => $pathImage,
+            'studio_id' => $request->studio_id
+        ])) {
+            return response()->json([
+                'success'=> true,
+                'message' => 'Image ajoutée'
+            ]);
         }
 
-
-        if (Studio::create($request->all())) {
-            return [
-                'success' => true,
-                'message' => 'Enregistrement effectué'
-            ];
-        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Studio  $studio
+     * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function show(Studio $studio)
+    public function show(Image $image)
     {
         //
-        $phones = $studio->phones;
-        $social_networks = $studio->social_networks;
-        $images = $studio->images;
-        $services = Service::all();
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
+        }
+        $studio = $image->studio;
         return [
-            'studio' => $studio,
-            'services' => $services
+            'image' => $image
         ];
     }
 
@@ -72,10 +69,10 @@ class StudioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Studio  $studio
+     * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Studio $studio)
+    public function update(Request $request, Image $image)
     {
         //
         if (!Gate::allows('access-admin')) {
@@ -83,10 +80,11 @@ class StudioController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
-        if ($studio->update($request->all())) {
+        if ($image->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $image
             ];
         }
     }
@@ -94,10 +92,10 @@ class StudioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Studio  $studio
+     * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Studio $studio)
+    public function destroy(Image $image)
     {
         //
         if (!Gate::allows('access-admin')) {
@@ -105,10 +103,11 @@ class StudioController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
-        if ($studio->delete()) {
+        if ($image->delete()) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "Enregistrement supprimé",
+                "data" => $image
             ];
         }
     }

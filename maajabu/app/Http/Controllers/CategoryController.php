@@ -78,7 +78,8 @@ class CategoryController extends Controller
         if ($category->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $category
             ];
         }
     }
@@ -100,7 +101,8 @@ class CategoryController extends Controller
         if ($category->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $category
             ];
         }
     }

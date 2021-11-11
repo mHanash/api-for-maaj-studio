@@ -20,4 +20,8 @@ class Studio extends Model
     public function phones(){
         return $this->hasMany(Phone::class);
     }
+
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
 }

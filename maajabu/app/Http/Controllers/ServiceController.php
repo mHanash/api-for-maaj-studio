@@ -29,13 +29,20 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
             ],403);
         }
-        if (Service::create($request->all())) {
+
+        $pathImage = $request->img_url->store('services','public');
+        if (Service::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'img_url' => $pathImage,
+            'tarif_id' => $request->tarif_id
+        ])) {
             return [
                 "success" => true,
                 "message" => "Enregistrement effectué"
@@ -79,7 +86,8 @@ class ServiceController extends Controller
         if ($service->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $service
             ];
         }
     }
@@ -101,7 +109,8 @@ class ServiceController extends Controller
         if ($service->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $service
             ];
         }
     }

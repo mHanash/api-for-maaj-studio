@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use GrahamCampbell\ResultType\Success;
 
 class UserController extends Controller
 {
@@ -41,10 +39,14 @@ class UserController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+
+        $pathImage = $request->img_url->store('users','public');
+
         if (User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'img_url' => $pathImage,
             'password' => Hash::make($request->password)
         ])) {
             return response()->json([
