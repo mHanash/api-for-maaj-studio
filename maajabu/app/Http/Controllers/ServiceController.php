@@ -35,7 +35,12 @@ class ServiceController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
-
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required',
+            'img_url' => 'required',
+            'tarif_id' => 'required',
+        ]);
         $pathImage = $request->img_url->store('services','public');
         if (Service::create([
             'name' => $request->name,

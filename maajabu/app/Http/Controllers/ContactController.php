@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Logiciel;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class LogicielController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,10 @@ class LogicielController extends Controller
      */
     public function index()
     {
-        $logiciels = Logiciel::all();
+        $contacts = Contact::all();
         return [
-            'logiciels' => $logiciels
+            'contacts' => $contacts
         ];
-
     }
 
     /**
@@ -30,15 +29,13 @@ class LogicielController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
+        //
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required'
         ]);
-        if (Logiciel::create($request->all())) {
+        if (Contact::create($request->all())) {
             return [
                 "success" => true,
                 "message" => "Enregistrement effectué"
@@ -49,13 +46,19 @@ class LogicielController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Logiciel  $logiciel
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Logiciel $logiciel)
+    public function show(Contact $contact)
     {
+        //
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
+        }
         return [
-            'logiciels' => $logiciel
+            'contact' => $contact
         ];
     }
 
@@ -63,41 +66,33 @@ class LogicielController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Logiciel  $logiciel
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Logiciel $logiciel)
+    public function update(Request $request, Contact $contact)
     {
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        if ($logiciel->update($request->all())) {
-            return [
-                "success" => true,
-                "message" => "La modification a reussie"
-            ];
-        }
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Logiciel  $logiciel
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Logiciel $logiciel)
+    public function destroy(Contact $contact)
     {
+        //
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
             ],403);
         }
-        if ($logiciel->delete()) {
+        if ($contact->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $contact
             ];
         }
     }

@@ -35,6 +35,10 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'date_reservation' => 'required',
+            'user_id' => 'required',
+        ]);
         if (Reservation::create($request->all())) {
             return [
                 "success" => true,

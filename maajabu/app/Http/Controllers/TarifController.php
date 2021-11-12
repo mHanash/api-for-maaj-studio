@@ -35,6 +35,11 @@ class TarifController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required',
+            'price' => 'required',
+        ]);
         if (Tarif::create($request->all())) {
             return [
                 "success" => true,

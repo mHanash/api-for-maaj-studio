@@ -36,6 +36,9 @@ class CategoryController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+        $request->validate([
+            'name' => 'required'
+        ]);
         if (Category::create($request->all())) {
             return [
                 "success" => true,

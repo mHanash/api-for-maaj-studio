@@ -34,7 +34,9 @@ class ArtistController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
-
+        $request->validate([
+            'name' => 'required|string'
+        ]);
         if (Artist::create($request->all())) {
             return [
                 "success" => true,
