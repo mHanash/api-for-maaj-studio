@@ -2,19 +2,22 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Work;
 use App\Models\Phone;
+use App\Models\Tarif;
 use App\Models\Artist;
 use App\Models\Studio;
+use App\Models\Contact;
+use App\Models\Horaire;
+use App\Models\Service;
 use App\Models\Category;
 use App\Models\Engineer;
 use App\Models\Logiciel;
 use App\Models\Reservation;
-use App\Models\Service;
 use App\Models\Social_network;
-use App\Models\Tarif;
-use App\Models\User;
-use App\Models\Work;
 use Illuminate\Database\Seeder;
+use PhpParser\Node\Expr\AssignOp\Concat;
 
 class ResourceSeeder extends Seeder
 {
@@ -38,5 +41,7 @@ class ResourceSeeder extends Seeder
                 Social_network::factory()->count(4)->create();
                 Phone::factory()->count(2)->create();
                 Logiciel::factory()->count(5)->create();
+                // Horaire::factory()->count(6)->create();
+                Contact::factory()->count(5)->create();
     }
 }

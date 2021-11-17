@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Service;
+use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ServiceFactory extends Factory
+class ContactFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Service::class;
+    protected $model = Contact::class;
 
     /**
      * Define the model's default state.
@@ -22,10 +22,9 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            //
             'name' => $this->faker->word,
-            'description' => $this->faker->sentence,
-            'tarif_id' => rand(1,4),
+            'email' => $this->faker->email,
+            'message' => $this->faker->paragraph
         ];
     }
 }

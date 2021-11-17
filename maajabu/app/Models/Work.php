@@ -13,6 +13,10 @@ class Work extends Model
 
     protected $fillable = ['name','description','engineer_id','artist_id'];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
     public function artist(){
         return $this->belongsTo(Artist::class);
     }

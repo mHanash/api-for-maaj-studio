@@ -43,7 +43,8 @@ class TarifController extends Controller
         if (Tarif::create($request->all())) {
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->tarif
             ];
         }
     }
@@ -81,7 +82,8 @@ class TarifController extends Controller
         if ($tarif->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $request->tarif
             ];
         }
     }
@@ -103,7 +105,8 @@ class TarifController extends Controller
         if ($tarif->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $tarif
             ];
         }
     }

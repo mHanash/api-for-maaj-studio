@@ -35,12 +35,14 @@ class ArtistController extends Controller
             ],403);
         }
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
         ]);
         if (Artist::create($request->all())) {
+            dd($request);
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->artist
             ];
         }
     }
@@ -75,11 +77,14 @@ class ArtistController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+        $request->validate([
+            'name' => 'required|string'
+        ]);
         if ($artist->update($request->all())) {
             return [
                 "success" => true,
                 "message" => "La modification a reussie",
-                "data" => $artist
+                "data" => $request->artist
             ];
         }
     }

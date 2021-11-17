@@ -25,6 +25,7 @@ class StudioFactory extends Factory
             //
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
+            'history' => $this->faker->paragraph,
             'adresse' => $this->faker->address,
             'url_maps' => $this->faker->url,
 

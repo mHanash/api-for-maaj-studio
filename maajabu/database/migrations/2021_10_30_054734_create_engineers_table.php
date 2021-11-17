@@ -17,7 +17,6 @@ class CreateEngineersTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('year_experience')->nullable();
-            $table->string('img_url')->nullable();
             $table->timestamps();
         });
     }

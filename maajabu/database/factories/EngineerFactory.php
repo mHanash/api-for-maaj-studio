@@ -25,7 +25,7 @@ class EngineerFactory extends Factory
             //
             'name' => $this->faker->unique()->name,
             'year_experience' => random_int(1,5),
-            'img_url' => $this->faker->imageUrl,
+
         ];
     }
 }

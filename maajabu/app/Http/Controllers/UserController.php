@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -20,7 +21,7 @@ class UserController extends Controller
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
-            ],403);
+            ], 403);
         }
         return User::all();
     }
@@ -37,24 +38,34 @@ class UserController extends Controller
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
-            ],403);
+            ], 403);
         }
+        $request->validate([
+            'name' => 'required|string|min:2|max:45',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable',
+            'admin' => 'nullable',
+            'password' => 'required|confirmed',
+            'img_url' => 'nullable|image'
+        ]);
 
-        $pathImage = $request->img_url->store('users','public');
-
-        if (User::create([
+        if ($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'img_url' => $pathImage,
+            'admin' => $request->admin,
             'password' => Hash::make($request->password)
         ])) {
+            $pathImage = $request->img_url->store('users', 'public');
+            $image = new Image(['img_url' => $pathImage]);
+            $user->image()->save($image);
+
             return response()->json([
-                'success'=> true,
-                'message' => 'Utilisateur crée'
+                'success' => true,
+                'message' => 'Utilisateur crée',
+                'data' => $user
             ]);
         }
-
     }
 
     /**
@@ -68,8 +79,9 @@ class UserController extends Controller
         //
 
         $reservations = $user->reservations;
+        $profile = $user->image;
         return [
-            'user'=>$user,
+            'user' => $user,
         ];
     }
 
@@ -83,10 +95,18 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        if ($request->admin) {
+            if (!Gate::allows('access-admin')) {
+                return response([
+                    'message' => 'pas autorisé'
+                ], 403);
+            }
+        }
         if ($user->update($request->all())) {
             return response()->json([
-                'success'=> true,
-                'message' => 'Utilisateur modifié'
+                'success' => true,
+                'message' => 'Utilisateur modifié',
+                'data' => $request->user
             ]);
         }
     }
@@ -102,10 +122,10 @@ class UserController extends Controller
         //
         if ($user->delete()) {
             return response()->json([
-                'success'=> true,
-                'message' => 'Utilisateur supprimé'
+                'success' => true,
+                'message' => 'Utilisateur supprimé',
+                'data' => $user
             ]);
         }
     }
-
 }

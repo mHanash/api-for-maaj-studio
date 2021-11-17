@@ -44,7 +44,8 @@ class HoraireController extends Controller
         if (Horaire::create($request->all())) {
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->horaire
             ];
         }
     }
@@ -78,7 +79,7 @@ class HoraireController extends Controller
             return [
                 "success" => true,
                 "message" => "La modification a reussie",
-                "data" => $horaire
+                "data" => $request->horaire
             ];
         }
     }

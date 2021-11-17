@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -28,22 +29,22 @@ class ImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-        $pathImage = $request->img_url->store('galeries','public');
-        if (Image::create([
-            'attribute' => $request->attribute,
-            'img_url' => $pathImage,
-            'studio_id' => $request->studio_id
-        ])) {
-            return response()->json([
-                'success'=> true,
-                'message' => 'Image ajoutée'
-            ]);
-        }
-
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    //     $pathImage = $request->img_url->store('galeries', 'public');
+    //     if (Image::create([
+    //         'img_url' => $pathImage
+    //     ])) {
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Image ajoutée',
+    //             'data' => [
+    //                 'img_url' => $request->img_url,
+    //             ]
+    //         ]);
+    //     }
+    // }
 
     /**
      * Display the specified resource.
@@ -54,12 +55,8 @@ class ImageController extends Controller
     public function show(Image $image)
     {
         //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        $studio = $image->studio;
+        dd($image);
+        $struct = $image->imageable;;
         return [
             'image' => $image
         ];
@@ -72,21 +69,32 @@ class ImageController extends Controller
      * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update_image(Request $request)
     {
         //
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
-            ],403);
+            ], 403);
         }
-        if ($image->update($request->all())) {
-            return [
-                "success" => true,
-                "message" => "La modification a reussie",
-                "data" => $image
-            ];
+        $request->validate([
+            'img_url' => 'required|image',
+        ]);
+        $image = Image::find($request->id);
+        $file = explode('/',$image->img_url)[0];
+        if (isset($request->img_url)) {
+            if (Storage::exists('public/' . $image->img_url)) {
+                Storage::delete('public/' . $image->img_url);
+            }
+            $path = $request->img_url->store($file, 'public');
+            $image->img_url = $path;
         }
+        $image->update();
+        return [
+            "success" => true,
+            "message" => "La modification a reussie",
+            "data" => $image
+        ];
     }
 
     /**
@@ -101,7 +109,7 @@ class ImageController extends Controller
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
-            ],403);
+            ], 403);
         }
         if ($image->delete()) {
             return [

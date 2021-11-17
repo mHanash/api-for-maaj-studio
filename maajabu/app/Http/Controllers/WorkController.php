@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Work;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -35,10 +36,18 @@ class WorkController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'engineer_id' => 'required',
+            'artist_id' => 'required',
+        ]);
         if (Work::create($request->all())) {
             return [
                 "success" => "true",
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->work
             ];
         }
 
@@ -72,6 +81,7 @@ class WorkController extends Controller
     public function update(Request $request, Work $work)
     {
         //
+
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
@@ -80,7 +90,8 @@ class WorkController extends Controller
         if ($work->update($request->all())) {
             return [
                 "success" => "true",
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $request->work
             ];
         }
     }
@@ -102,7 +113,8 @@ class WorkController extends Controller
         if ($work->delete()) {
             return [
                 "success" => "true",
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $work
             ];
         }
 

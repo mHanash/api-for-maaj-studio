@@ -1,2 +1,2 @@
 <?php
-const PROJECT_URL = "https://localhost:8000/";
+const PROJECT_URL = 'https://localhost:8000/';

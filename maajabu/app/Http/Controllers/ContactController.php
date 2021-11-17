@@ -15,6 +15,11 @@ class ContactController extends Controller
      */
     public function index()
     {
+        if (!Gate::allows('access-admin')) {
+            return response([
+                'message' => 'pas autorisé'
+            ],403);
+        }
         $contacts = Contact::all();
         return [
             'contacts' => $contacts
@@ -38,7 +43,8 @@ class ContactController extends Controller
         if (Contact::create($request->all())) {
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->contact
             ];
         }
     }

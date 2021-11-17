@@ -15,57 +15,42 @@ class ResetPasswordController extends Controller
     //
     public function forgot_password(Request $request)
     {
-    // $request->validate([
-    //     'email' => 'required|email',
-    // ]);
+        $request->validate(['email' => 'required|email']);
 
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
-
-    if ($status == Password::RESET_LINK_SENT) {
-        return [
-            'status' => __($status)
-        ];
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+        return $status === Password::RESET_LINK_SENT
+            ? ['status' => __($status)]
+            : ['email' => __($status)];
     }
 
-    throw ValidationException::withMessages([
-        'email' => [trans($status)],
-    ]);
-}
-
-public function reset_password(Request $request)
-{
-    $request->validate([
-        'token' => 'required',
-        'email' => 'required|email',
-        'password' => ['required', 'confirmed', RulesPassword::defaults()],
-    ]);
-
-    $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
-        function ($user) use ($request) {
-            $user->forceFill([
-                'password' => Hash::make($request->password),
-                'remember_token' => Str::random(60),
-            ])->save();
-
-            $user->tokens()->delete();
-
-            event(new PasswordReset($user));
-        }
-    );
-
-    if ($status == Password::PASSWORD_RESET) {
-        return response([
-            'message'=> 'Password reset successfully'
+    public function reset_password(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
         ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? [
+                'success' => true,
+                'status' => __($status)
+            ]
+            : ['email' => __($status)];
     }
-
-    return response([
-        'message'=> __($status)
-    ], 500);
-
-}
-
 }

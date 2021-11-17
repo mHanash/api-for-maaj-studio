@@ -13,6 +13,10 @@ class Reservation extends Model
 
     protected $fillable = ['date_reservation','user_id'];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

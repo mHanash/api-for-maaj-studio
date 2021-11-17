@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -10,8 +11,6 @@ class ResetPasswordNotification extends Notification
 {
     use Queueable;
 
-    public $url;
-
     /**
      * Create a new notification instance.
      *
@@ -19,7 +18,7 @@ class ResetPasswordNotification extends Notification
      */
     public function __construct(string $url)
     {
-        $this->url = $url;
+        $this->url=$url;
     }
 
     /**
@@ -42,8 +41,8 @@ class ResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Forgot Password?')
-                    ->action('Click to reset', $this->url)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', $this->url)
                     ->line('Thank you for using our application!');
     }
 

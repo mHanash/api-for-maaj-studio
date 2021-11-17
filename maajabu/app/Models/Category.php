@@ -12,6 +12,10 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
     public function works(){
         return $this->belongsToMany(Work::class);
     }

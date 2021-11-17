@@ -12,6 +12,10 @@ class Logiciel extends Model
 
     protected $fillable = ['name'];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
 
     public function engineers(){
         return $this->belongsToMany(Engineer::class);

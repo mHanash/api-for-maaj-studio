@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Image;
 use App\Models\Service;
 use App\Models\Reservation;
-use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -47,14 +49,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function reservations(){
+    public function reservations()
+    {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class,'imageable');
     }
 
     public function sendPasswordResetNotification($token)
     {
-
-        $url = PROJECT_URL.'/reset-password?token=' . $token;
+        $url = 'https://example.com/reset-password?token=' . $token;
 
         $this->notify(new ResetPasswordNotification($url));
     }

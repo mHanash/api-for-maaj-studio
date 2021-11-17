@@ -10,23 +10,31 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //
-    public function login(LoginRequest $request){
+    public function login(Request $request){
+        // $request->validate([
+        //     'email' => 'required|email',
+        //     'password' => 'required'
+        // ]);
+        $user = User::where('email',$request->email)->first();
 
-        $request->authenticate();
+        if (!$user || !Hash::check($request->password,$user->password)) {
+            $response = [
+                'success' => false,
+                'message' => 'Utilisateur non authentifié'
+            ];
 
+            return response($response,401);
+        }
 
-        $token = $request->user()->createToken('myToken');
+        $token = $user->createToken('myToken')->plainTextToken;
 
-       return response()->json(
-           [
-               'success' =>true,
-               'message'=>'Logged in',
-               'data'=> [
-                   'user'=> $request->user(),
-                   'token'=> $token->plainTextToken
-               ]
-           ]
-        );
+        $response = [
+            'success' => true,
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
     }
 
     public function logout(Request $request){
@@ -38,18 +46,16 @@ class AuthController extends Controller
 
     public function register(Request $request){
 
-        $fields = $request->validate([
+        $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'phone' => 'required|string',
+            'email' => 'required|string|unique:users,email|email',
             'password' => 'required|string|confirmed'
         ]);
-
         $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'phone' => $fields['telephone'],
-            'password' => Hash::make($fields['password'])
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password,)
         ]);
 
 

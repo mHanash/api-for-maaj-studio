@@ -41,7 +41,8 @@ class LogicielController extends Controller
         if (Logiciel::create($request->all())) {
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->logiciel
             ];
         }
     }
@@ -54,6 +55,7 @@ class LogicielController extends Controller
      */
     public function show(Logiciel $logiciel)
     {
+        $engineers = $logiciel->engineers;
         return [
             'logiciels' => $logiciel
         ];
@@ -76,7 +78,8 @@ class LogicielController extends Controller
         if ($logiciel->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $request->logiciel
             ];
         }
     }
@@ -97,7 +100,8 @@ class LogicielController extends Controller
         if ($logiciel->delete()) {
             return [
                 "success" => true,
-                "message" => "Enregistrement supprimé"
+                "message" => "Enregistrement supprimé",
+                "data" => $logiciel
             ];
         }
     }

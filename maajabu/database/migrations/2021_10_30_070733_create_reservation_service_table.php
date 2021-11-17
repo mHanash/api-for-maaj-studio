@@ -15,8 +15,8 @@ class CreateReservationServiceTable extends Migration
     {
         Schema::create('reservation_service', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained();
-            $table->foreignId('reservation_id')->constrained();
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

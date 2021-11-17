@@ -7,6 +7,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\Studio as ResourcesStudio;
+use App\Models\Image;
 
 class StudioController extends Controller
 {
@@ -40,11 +41,14 @@ class StudioController extends Controller
             ],403);
         }
 
-
-        if (Studio::create($request->all())) {
+        if ($studio=Studio::create($request->all())) {
+            $pathImage = $request->img_url->store('galeries', 'public');
+            $image = new Image(['img_url' => $pathImage]);
+            $studio->image()->save($image);
             return [
                 'success' => true,
-                'message' => 'Enregistrement effectué'
+                'message' => 'Enregistrement effectué',
+                'data' => $studio
             ];
         }
     }
@@ -64,7 +68,8 @@ class StudioController extends Controller
         $services = Service::all();
         return [
             'studio' => $studio,
-            'services' => $services
+            'services' => $services,
+            'data' => $studio
         ];
     }
 
@@ -86,7 +91,8 @@ class StudioController extends Controller
         if ($studio->update($request->all())) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $request->studio
             ];
         }
     }
@@ -108,7 +114,8 @@ class StudioController extends Controller
         if ($studio->delete()) {
             return [
                 "success" => true,
-                "message" => "La modification a reussie"
+                "message" => "La modification a reussie",
+                "data" => $studio
             ];
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -38,19 +39,21 @@ class ServiceController extends Controller
         $request->validate([
             'name' => 'required|string',
             'description' => 'required',
-            'img_url' => 'required',
             'tarif_id' => 'required',
         ]);
         $pathImage = $request->img_url->store('services','public');
-        if (Service::create([
+        if ($service = Service::create([
             'name' => $request->name,
             'description' => $request->description,
-            'img_url' => $pathImage,
             'tarif_id' => $request->tarif_id
         ])) {
+            $pathImage = $request->img_url->store('services', 'public');
+            $image = new Image(['img_url' => $pathImage]);
+            $service->image()->save($image);
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $service
             ];
         }
 
@@ -67,7 +70,7 @@ class ServiceController extends Controller
         //
         $tarif = $service->tarif;
         $reservations = $service->reservations;
-
+        $profile = $service->image;
         return [
             'service' => $service
         ];
@@ -92,7 +95,7 @@ class ServiceController extends Controller
             return [
                 "success" => true,
                 "message" => "La modification a reussie",
-                "data" => $service
+                "data" => $request->service
             ];
         }
     }

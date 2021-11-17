@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 
 use function PHPUnit\Framework\returnSelf;
 use App\Http\Resources\Category as ResourcesCategory;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -31,6 +32,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        // dd(Auth::user()->id);
         if (!Gate::allows('access-admin')) {
             return response([
                 'message' => 'pas autorisé'
@@ -42,7 +44,8 @@ class CategoryController extends Controller
         if (Category::create($request->all())) {
             return [
                 "success" => true,
-                "message" => "Enregistrement effectué"
+                "message" => "Enregistrement effectué",
+                "data" => $request->category
             ];
         }
 
@@ -78,6 +81,9 @@ class CategoryController extends Controller
                 'message' => 'pas autorisé'
             ],403);
         }
+        $request->validate([
+            'name' => 'required'
+        ]);
         if ($category->update($request->all())) {
             return [
                 "success" => true,

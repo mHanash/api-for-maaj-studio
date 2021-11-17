@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Engineer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -38,13 +39,15 @@ class EngineerController extends Controller
         $request->validate([
             'name' => 'required',
             'year_experience' => 'required',
-            'img_url' => 'required'
         ]);
-        if (Engineer::create($request->all())) {
+        if ($engineer = Engineer::create($request->all())) {
+            $pathImage = $request->img_url->store('engineers', 'public');
+            $image = new Image(['img_url' => $pathImage]);
+            $engineer->image()->save($image);
             return [
                 "success" => true,
                 "message" => "Enregistrement effectué",
-                "data" => $request
+                "data" => $engineer
             ];
         }
     }
@@ -60,6 +63,7 @@ class EngineerController extends Controller
         //
         $works = $engineer->works;
         $logiciels = $engineer->logiciels;
+        $profile = $engineer->image;
         return [
             'engineer'=>$engineer
         ];
@@ -84,7 +88,7 @@ class EngineerController extends Controller
             return [
                 "success" => true,
                 "message" => "La modification a reussie",
-                "data" => $engineer
+                "data" => $request->engineer
             ];
         }
     }
