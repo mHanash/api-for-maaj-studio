@@ -44,7 +44,6 @@ class UserController extends Controller
             'name' => 'required|string|min:2|max:45',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable',
-            'admin' => 'nullable',
             'password' => 'required|confirmed',
             'img_url' => 'nullable|image'
         ]);
@@ -53,7 +52,6 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'admin' => $request->admin,
             'password' => Hash::make($request->password)
         ])) {
             $pathImage = $request->img_url->store('users', 'public');

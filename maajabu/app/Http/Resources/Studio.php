@@ -18,6 +18,7 @@ class Studio extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            'history' => $this->history,
             'adresse' => $this->adresse,
             'url_maps' => $this->url_maps
         ];

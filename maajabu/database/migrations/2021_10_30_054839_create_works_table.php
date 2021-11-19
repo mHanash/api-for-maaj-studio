@@ -17,8 +17,8 @@ class CreateWorksTable extends Migration
             $table->id();
             $table->string('name');
             $table->mediumText('description');
-            $table->foreignId('engineer_id')->constrained();
-            $table->foreignId('artist_id')->constrained();
+            $table->foreignId('engineer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('artist_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

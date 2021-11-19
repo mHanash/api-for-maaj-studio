@@ -34,10 +34,10 @@ class ResourceSeeder extends Seeder
         Category::factory()->count(7)->create();
         Engineer::factory()->count(10)->create();
         Tarif::factory()->count(4)->create();
-        User::factory()->count(10)->create();
+        //User::factory()->count(10)->create();
                 Work::factory()->count(7)->create();
-                Reservation::factory()->count(6)->create();
-                Service::factory()->count(4)->create();
+                //Reservation::factory()->count(6)->create();
+                //Service::factory()->count(4)->create();
                 Social_network::factory()->count(4)->create();
                 Phone::factory()->count(2)->create();
                 Logiciel::factory()->count(5)->create();

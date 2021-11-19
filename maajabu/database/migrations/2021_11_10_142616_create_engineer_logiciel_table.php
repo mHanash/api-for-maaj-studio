@@ -15,8 +15,8 @@ class CreateEngineerLogicielTable extends Migration
     {
         Schema::create('engineer_logiciel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('engineer_id')->constrained();
-            $table->foreignId('logiciel_id')->constrained();
+            $table->foreignId('engineer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('logiciel_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
