@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         //
         Gate::define('access-admin', function(User $user){
-            return $user->role_id;
+            return $user->role_id==1?true:false;
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {

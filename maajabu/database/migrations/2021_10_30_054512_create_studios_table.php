@@ -19,6 +19,7 @@ class CreateStudiosTable extends Migration
             $table->mediumText('description');
             $table->text('history');
             $table->string('adresse');
+            $table->string('logo')->nullable();
             $table->mediumText('url_maps');
             $table->timestamps();
         });

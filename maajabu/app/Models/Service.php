@@ -12,20 +12,20 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','tarif_id'];
+    protected $fillable = ['name','description','tarif_id','img_url'];
 
     protected $hidden = [
         'pivot'
     ];
 
-    public function tarif(){
-        return $this->belongsTo(Tarif::class);
+    public function tarifs(){
+        return $this->belongsToMany(Tarif::class);
     }
 
     public function reservations(){
         return $this->belongsToMany(Reservation::class);
     }
-    public function image(){
-        return $this->morphOne(Image::class,'imageable');
-    }
+    // public function image(){
+    //     return $this->morphOne(Image::class,'imageable');
+    // }
 }

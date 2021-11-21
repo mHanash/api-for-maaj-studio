@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEngineersTable extends Migration
+class CreateServiceTarifTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateEngineersTable extends Migration
      */
     public function up()
     {
-        Schema::create('engineers', function (Blueprint $table) {
+        Schema::create('service_tarif', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('year_experience')->nullable();
-            $table->string('img_url')->nullable();
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tarif_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateEngineersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('engineers');
+        Schema::dropIfExists('service_tarifs');
     }
 }

@@ -17,7 +17,7 @@ class CreateServicesTable extends Migration
             $table->id();
             $table->string('name');
             $table->mediumText('description');
-            $table->foreignId('tarif_id')->constrained()->onDelete('cascade');
+            $table->string('img_url')->nullable();
             $table->timestamps();
         });
     }

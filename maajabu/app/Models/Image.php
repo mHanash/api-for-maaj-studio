@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Studio;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Image extends Model
 {
@@ -11,7 +12,7 @@ class Image extends Model
 
     protected $fillable = ['img_url'];
 
-    public function imageable(){
-        return $this->morphTo();
+    public function studio(){
+        return $this->belongsTo(Studio::class);
     }
 }

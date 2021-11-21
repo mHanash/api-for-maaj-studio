@@ -44,19 +44,18 @@ class UserController extends Controller
             'name' => 'required|string|min:2|max:45',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable',
-            'password' => 'required|confirmed',
-            'img_url' => 'nullable|image'
+            'avatar' => 'nullable|image',
+            'password' => 'required|confirmed'
         ]);
 
+        $pathImage = $request->avatar->store('users', 'public');
         if ($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'avatar' => $pathImage,
             'phone' => $request->phone,
             'password' => Hash::make($request->password)
         ])) {
-            $pathImage = $request->img_url->store('users', 'public');
-            $image = new Image(['img_url' => $pathImage]);
-            $user->image()->save($image);
 
             return response()->json([
                 'success' => true,

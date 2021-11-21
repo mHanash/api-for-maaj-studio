@@ -11,7 +11,7 @@ class Studio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','adresse','url_maps'];
+    protected $fillable = ['name','description','adresse','url_maps','logo'];
 
     public function social_networks(){
         return $this->hasMany(Social_network::class);
@@ -22,6 +22,6 @@ class Studio extends Model
     }
 
     public function images(){
-        return $this->morphMany(Image::class,'imageable');
+        return $this->hasMany(Image::class);
     }
 }

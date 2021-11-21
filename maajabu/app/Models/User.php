@@ -25,6 +25,7 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'avatar',
         'phone',
         'password',
     ];
@@ -53,10 +54,10 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $this->hasMany(Reservation::class);
     }
 
-    public function image()
-    {
-        return $this->morphOne(Image::class,'imageable');
-    }
+    // public function image()
+    // {
+    //     return $this->morphOne(Image::class,'imageable');
+    // }
 
     public function sendPasswordResetNotification($token)
     {

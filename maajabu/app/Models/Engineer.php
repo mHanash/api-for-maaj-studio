@@ -12,7 +12,7 @@ class Engineer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','year_experience'];
+    protected $fillable = ['name','year_experience','img_url'];
 
     protected $hidden = [
         'pivot'
@@ -25,7 +25,7 @@ class Engineer extends Model
     public function logiciels(){
         return $this->belongsToMany(Logiciel::class);
     }
-    public function image(){
-        return $this->morphOne(Image::class,'imageable');
-    }
+    // public function image(){
+    //     return $this->morphOne(Image::class,'imageable');
+    // }
 }

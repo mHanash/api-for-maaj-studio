@@ -12,7 +12,11 @@ class Tarif extends Model
 
     protected $fillable = ['name','description','price'];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
     public function services(){
-        return $this->hasMany(Service::class);
+        return $this->belongsToMany(Service::class);
     }
 }

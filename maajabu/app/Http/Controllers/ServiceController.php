@@ -28,36 +28,36 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    // public function store(Request $request)
+    // {
 
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        $request->validate([
-            'name' => 'required|string',
-            'description' => 'required',
-            'tarif_id' => 'required',
-        ]);
-        $pathImage = $request->img_url->store('services','public');
-        if ($service = Service::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'tarif_id' => $request->tarif_id
-        ])) {
-            $pathImage = $request->img_url->store('services', 'public');
-            $image = new Image(['img_url' => $pathImage]);
-            $service->image()->save($image);
-            return [
-                "success" => true,
-                "message" => "Enregistrement effectué",
-                "data" => $service
-            ];
-        }
+    //     if (!Gate::allows('access-admin')) {
+    //         return response([
+    //             'message' => 'pas autorisé'
+    //         ],403);
+    //     }
+    //     $request->validate([
+    //         'name' => 'required|string',
+    //         'description' => 'required',
+    //         'tarif_id' => 'required',
+    //     ]);
+    //     $pathImage = $request->img_url->store('services','public');
+    //     if ($service = Service::create([
+    //         'name' => $request->name,
+    //         'description' => $request->description,
+    //         'tarif_id' => $request->tarif_id
+    //     ])) {
+    //         $pathImage = $request->img_url->store('services', 'public');
+    //         $image = new Image(['img_url' => $pathImage]);
+    //         $service->image()->save($image);
+    //         return [
+    //             "success" => true,
+    //             "message" => "Enregistrement effectué",
+    //             "data" => $service
+    //         ];
+    //     }
 
-    }
+    // }
 
     /**
      * Display the specified resource.
@@ -68,9 +68,8 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         //
-        $tarif = $service->tarif;
+        $tarif = $service->tarifs;
         $reservations = $service->reservations;
-        $profile = $service->image;
         return [
             'service' => $service
         ];
@@ -83,22 +82,22 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
-    {
-        //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        if ($service->update($request->all())) {
-            return [
-                "success" => true,
-                "message" => "La modification a reussie",
-                "data" => $request->service
-            ];
-        }
-    }
+    // public function update(Request $request, Service $service)
+    // {
+    //     //
+    //     if (!Gate::allows('access-admin')) {
+    //         return response([
+    //             'message' => 'pas autorisé'
+    //         ],403);
+    //     }
+    //     if ($service->update($request->all())) {
+    //         return [
+    //             "success" => true,
+    //             "message" => "La modification a reussie",
+    //             "data" => $request->service
+    //         ];
+    //     }
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -106,20 +105,20 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
-    {
-        //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        if ($service->delete()) {
-            return [
-                "success" => true,
-                "message" => "Enregistrement supprimé",
-                "data" => $service
-            ];
-        }
-    }
+    // public function destroy(Service $service)
+    // {
+    //     //
+    //     if (!Gate::allows('access-admin')) {
+    //         return response([
+    //             'message' => 'pas autorisé'
+    //         ],403);
+    //     }
+    //     if ($service->delete()) {
+    //         return [
+    //             "success" => true,
+    //             "message" => "Enregistrement supprimé",
+    //             "data" => $service
+    //         ];
+    //     }
+    // }
 }

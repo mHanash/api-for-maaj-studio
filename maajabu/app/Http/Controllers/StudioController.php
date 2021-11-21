@@ -22,7 +22,7 @@ class StudioController extends Controller
         $studios = Studio::all();
 
         return [
-            'studios' => ResourcesStudio::collection($studios),
+            'studios' => ResourcesStudio::collection($studios)
         ];
     }
 
@@ -32,26 +32,26 @@ class StudioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
+    // public function store(Request $request)
+    // {
+    //     //
+    //     if (!Gate::allows('access-admin')) {
+    //         return response([
+    //             'message' => 'pas autorisé'
+    //         ],403);
+    //     }
 
-        if ($studio=Studio::create($request->all())) {
-            $pathImage = $request->img_url->store('galeries', 'public');
-            $image = new Image(['img_url' => $pathImage]);
-            $studio->image()->save($image);
-            return [
-                'success' => true,
-                'message' => 'Enregistrement effectué',
-                'data' => $studio
-            ];
-        }
-    }
+    //     if ($studio=Studio::create($request->all())) {
+    //         $pathImage = $request->img_url->store('galeries', 'public');
+    //         $image = new Image(['img_url' => $pathImage]);
+    //         $studio->image()->save($image);
+    //         return [
+    //             'success' => true,
+    //             'message' => 'Enregistrement effectué',
+    //             'data' => $studio
+    //         ];
+    //     }
+    // }
 
     /**
      * Display the specified resource.
@@ -80,22 +80,22 @@ class StudioController extends Controller
      * @param  \App\Models\Studio  $studio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Studio $studio)
-    {
-        //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        if ($studio->update($request->all())) {
-            return [
-                "success" => true,
-                "message" => "La modification a reussie",
-                "data" => $request->studio
-            ];
-        }
-    }
+    // public function update(Request $request, Studio $studio)
+    // {
+    //     //
+    //     if (!Gate::allows('access-admin')) {
+    //         return response([
+    //             'message' => 'pas autorisé'
+    //         ],403);
+    //     }
+    //     if ($studio->update($request->all())) {
+    //         return [
+    //             "success" => true,
+    //             "message" => "La modification a reussie",
+    //             "data" => $request->studio
+    //         ];
+    //     }
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -103,20 +103,20 @@ class StudioController extends Controller
      * @param  \App\Models\Studio  $studio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Studio $studio)
-    {
-        //
-        if (!Gate::allows('access-admin')) {
-            return response([
-                'message' => 'pas autorisé'
-            ],403);
-        }
-        if ($studio->delete()) {
-            return [
-                "success" => true,
-                "message" => "La modification a reussie",
-                "data" => $studio
-            ];
-        }
-    }
+    // public function destroy(Studio $studio)
+    // {
+    //     //
+    //     if (!Gate::allows('access-admin')) {
+    //         return response([
+    //             'message' => 'pas autorisé'
+    //         ],403);
+    //     }
+    //     if ($studio->delete()) {
+    //         return [
+    //             "success" => true,
+    //             "message" => "La modification a reussie",
+    //             "data" => $studio
+    //         ];
+    //     }
+    // }
 }

@@ -36,17 +36,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('user', UserController::class);
     Route::apiResource('reservation', ReservationController::class);
-    Route::apiResource('engineer', EngineerController::class)->except('index', 'show');
-    Route::apiResource('service', ServiceController::class)->except('index', 'show');
-    Route::apiResource('tarif', TarifController::class)->except('index', 'show');
-    Route::apiResource('studio', StudioController::class)->except('index', 'show');
-    Route::apiResource('work', WorkController::class)->except('index', 'show');
-    Route::apiResource('image', ImageController::class)->except('index', 'show','update');
+    // Route::apiResource('engineer', EngineerController::class)->except('index', 'show');
+    // Route::apiResource('service', ServiceController::class)->except('index', 'show');
+    // Route::apiResource('tarif', TarifController::class)->except('index', 'show');
+    // Route::apiResource('studio', StudioController::class)->except('index', 'show');
+    // Route::apiResource('work', WorkController::class)->except('index', 'show');
+    // Route::apiResource('image', ImageController::class)->except('index', 'show','update');
     Route::apiResource('contact', ContactController::class)->except('store');
-    Route::apiResource('artist', ArtistController::class)->except('index', 'show');;
-    Route::apiResource('horaire', HoraireController::class)->except('index');
-    Route::apiResource('logiciel', LogicielController::class)->except('index', 'show');
-    Route::apiResource('category', CategoryController::class)->except('index', 'show');
+    // Route::apiResource('artist', ArtistController::class)->except('index', 'show');;
+    // Route::apiResource('horaire', HoraireController::class)->except('index');
+    // Route::apiResource('logiciel', LogicielController::class)->except('index', 'show');
+    // Route::apiResource('category', CategoryController::class)->except('index', 'show');
 
     Route::post('update-image/{id}', [ImageController::class,'update_image'])->name('image.update');
 
