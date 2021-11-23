@@ -69,7 +69,6 @@ class StudioController extends Controller
         return [
             'studio' => $studio,
             'services' => $services,
-            'data' => $studio
         ];
     }
 
